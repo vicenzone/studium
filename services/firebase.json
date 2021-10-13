@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "studium-online",
+  "private_key_id": "fcb3653b8ed0fbce9ce340ba839ca433abf07e26",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDIo/5NCEivNJNL\nIWZNttnDz2dlpm0whPOaDpuRPFEERLaDCB0lZOw8264EVMZDnmsVsiLHtpFS6qn/\nYF/bmQ/xpjEZgShlW6Y0Ry0RaRpaXNmMfEtwGKIDsy/OPfhQbPGZqdi/IYO5ORJt\ntjzxkaU3SPM5WFZT6zY4VEyJBKMn1glOnR+9feEVZ5iXNlvZwjxGU9r3WTfWxMBz\nHfgfHZp8UQOps37pE4zPU5CQ2sElNwZkweHyHnuXU2BqksQ7nqp0M2aORCQSIUnK\nAxPyFSWaG9zjbc/j1Z6K3dD/63hxRWO41+gHGrTW3OsfY8FVy2x7k91Dao7KC0x3\nEBRo5TmFAgMBAAECggEADy0htqJE8S+5C8qbyjllpmMr7ys+q21bCbucy8herm54\nyazVm4xTNtU9B+nWUgC2bokvX/YwxC9TgCls3BeV9lF7pEdkjqoh27wd2L509lcl\n7h5BYdoTIymCGQe588dnIkLlI1aTIpxXsaxtAVliwFhIbCgrkM8ZUPsbYOp/YYCz\nlMuI9eJVfvzgQVxe+BE7yu4wnM6w/BTUgp9yVN7j+nHP5ru3HKpp3th02F3Vxihi\nYyHPlQigWpIG/DLDynlkv9J1nXDvMCUU7Jb1pJyFlgQm2TmxPEnINcshO74OcI5x\nw2l4Es/4ktpAP/7CN0AM1Hcu2mriQNA2Ajo61aiK4QKBgQDvGmLOyGb/EhstU8i8\nKGPMJVTqHtNIwtI4PlOhihylPkrG12HMgUzUmdOe09jzWS57KFugOczaUiqbO0l/\nUPamcWq1eMUTFQAdYgxKqa7OM2ShK/XBvkZ/IhhpFCaJCP6XC2WGI91/ch5pETZ+\nfSBM5sRVaDELxudPeuP3x60q1QKBgQDW0chjdUj5PD/drp9qdhlJliouNKnRouLL\nKbuHHj2V2Z3VTVETmj8scVG5HOo2mNbGh3f56SCcI4drV1JtfJItNdsqbnlCLsUT\nA9gQcT++6Gl3f8VBCpMz2N6FHTgY0ZcLPblDJ40UVZQ3WbzgWLyKONfuk5WbcANi\nnteYiMXL8QKBgQC4sekhUiw9W/8iRFYLAigUycGOF8GdsuAwEfUIE2eNPVEFx9oD\n3t06XJjbV0l+sKT2/XXJjtxuyImg32smraPZbkK/a0rQMqikCdj00530Kj7RQOPV\nhOVvzyaMBMS/lfMTOfpyY8H1cHGNN36gtob84EVIs/Mu5bZH7uWpwNRDAQKBgQCm\nyGUuYubvKonjUSpP+7USXtYM3bJjInW2ioYgF6h06WoTK14hPAaEOM7cS8jD7tIB\nfTf2/brlvufqvPcwLiFHnKK2ROM8MRes9bUQvvxg+gy4TKkXIGC9RkktTEw7aK4+\negOWUeTEvtS+TJvKCtsG7a8oeckTz1mxfeWhdb8r4QKBgQCM3astPeUTZJBHTfED\nTNpBiRlc/BWXsYrTsreBHTASbNUH6skOAtmeFts53wcbmKQ2tT0zn16VDT5NppfN\neES3y/E/XNKqQyjW6ue4RhlQEjkG+ui5rJhr5eshZiwBZ/Mvd36R/6xTLGIFY+bg\nXijA2sW/LSSqpkjqtkxi8icvVg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-miyix@studium-online.iam.gserviceaccount.com",
+  "client_id": "108468520804721718076",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-miyix%40studium-online.iam.gserviceaccount.com"
+}
