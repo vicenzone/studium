@@ -93,114 +93,55 @@ const writeUser = async (req, res) => {
         } */
 
     const data = {
-        first: {
-            subjects: [{
-                name: 'Lingua e Letteratura Italiana',
-                icon_url: 'https://img.icons8.com/external-wanicon-lineal-color-wanicon/50/000000/external-history-university-courses-wanicon-lineal-color-wanicon.png'
+        name: 'lorenzo',
+        surname: 'Fiale',
+        email: 'info@lorenzofiale.com',
+        study_branch: '4-5AFM',
+        status: 'active',
+        account: {
+            password: '123',
+            last_login_ip: '127.0.0.33',
+            last_login_timestamp: '2021-09-28 08:18:50',
+            action_logs: [{
+                type: 'login',
+                timestamp: 1634237461,
+                url: 'https://studium.bianchetti.me'
             }, {
-                name: 'Lingua Inglese',
-                icon_url: 'https://img.icons8.com/doodle/48/000000/great-britain.png'
+                type: 'lessons',
+                timestamp: 1634237565,
+                subject: 'English',
+                title: 'Business: company type',
+                url: 'https://studium.bianchetti.me/lessons/english/9219'
             }, {
-                name: 'Seconda Lingua Comunitaria',
-                icon_url: 'https://img.icons8.com/external-vitaliy-gorbachev-lineal-color-vitaly-gorbachev/60/000000/external-spain-flags-vitaliy-gorbachev-lineal-color-vitaly-gorbachev.png'
-            }, {
-                name: 'Economia Aziendale',
-                icon_url: 'https://img.icons8.com/external-itim2101-lineal-color-itim2101/64/000000/external-economy-computer-technology-itim2101-lineal-color-itim2101.png'
-            }, {
-                name: 'Storia Cittadinanza e Costitutzione',
-                icon_url: 'https://img.icons8.com/fluency/48/000000/law.png'
-            }, {
-                name: 'Matematica',
-                icon_url: 'https://img.icons8.com/external-becris-lineal-color-becris/64/000000/external-math-literary-genres-becris-lineal-color-becris.png'
-            }, {
-                name: 'Scienze Integrate (Sc. della Terra e Biologia)',
-                icon_url: 'https://img.icons8.com/external-becris-flat-becris/64/000000/external-science-literary-genres-becris-flat-becris.png'
-            }, {
-                name: 'Fisica',
-                icon_url: 'https://img.icons8.com/external-prettycons-solid-prettycons/60/000000/external-physics-education-prettycons-solid-prettycons.png'
-            }, {
-                name: 'Chimica',
-                icon_url: 'https://img.icons8.com/ios-filled/50/000000/test-tube.png'
-            }, {
-                name: 'Geografia',
-                icon_url: 'https://img.icons8.com/external-wanicon-flat-wanicon/64/000000/external-geography-university-courses-wanicon-flat-wanicon.png'
-            }, {
-                name: 'Informatica',
-                icon_url: 'https://img.icons8.com/external-becris-lineal-color-becris/64/000000/external-technology-artificial-intelligence-becris-lineal-color-becris.png'
-            }, {
-                name: 'Diritto',
-                icon_url: 'https://img.icons8.com/ios-filled/50/000000/law-book.png'
-            }, {
-                name: 'Economia Politica',
-                icon_url: 'https://img.icons8.com/external-justicon-flat-justicon/64/000000/external-politics-woman-day-justicon-flat-justicon-1.png'
+                type: 'lessons',
+                timestamp: 1634237793,
+                subject: 'Italiano',
+                title: 'Scuola poetica siciliana',
+                url: 'https://studium.bianchetti.me/lessons/italiano/6492'
             }]
+        },
+        personal_info: {
+            street: "Via Stelvio",
+            street_number: 21,
+            cap: 20150,
+            city: 'MI',
+            country: 'IT'
+        },
+        lessons: {
+            general_data: {
+                tot_hours_lessons: 5,
+                remaining_lessons: 2491,
+                new_lesson: {
+                    lessons_count_last_login: 2141,
+                    tot_lessons_currently: 2189
+                },
+            }
         }
     }
 
 
-
-
-    /*  name: 'lorenzo',
-      surname: 'Fiale',
-      email: 'info@lorenzofiale.com',
-      study_branch: '4-5AFM',
-      status: 'active',
-      account: {
-          password: '123',
-          last_login_ip: '127.0.0.33',
-          last_login_timestamp: '2021-09-28 08:18:50',
-          action_logs: {
-              1634042789: {
-                  url: '/lessons',
-                  type: 'page load',
-              }
-          }
-      },
-      personal_info: {
-          street: "Via Stelvio",
-          street_number: 21,
-          cap: 20150,
-          city: 'MI',
-          country: 'IT'
-      },
-      lessons: {
-          general_data: {
-              tot_hours_lessons: 5,
-              remaining_lessons: 2491,
-              new_lesson: {
-                  lessons_count_last_login: 2141,
-                  tot_lessons_currently: 2189
-              },
-              last_five_lessons_visites: {
-                  one: {
-                      class: '4AFM',
-                      subject: 'Economia',
-                      teacher: 'Confalonieri',
-                      lesson: 'Domanda e Offerta',
-                      watchtime: '3'
-                  },
-                  two: {
-                      class: '4AFM',
-                      subject: 'Economia politica',
-                      teacher: 'Dolciotti',
-                      lesson: 'Costituzione',
-                      watchtime: '13'
-
-                  },
-                  three: {
-                      class: '4AFM',
-                      subject: 'Economia politica',
-                      teacher: 'Dolciotti',
-                      lesson: 'Fonti atto & Fonti fatto',
-                      watchtime: '7'
-                  }
-              }
-          }
-      }*/
-
-
     // Add a new document in collection "cities" with ID 'LA'
-    await db.collection('classes').doc('afm').set(data);
+    await db.collection('users').doc('vincent').set(data);
     res.json({ msg: 'done' })
 }
 
@@ -249,8 +190,15 @@ const subjectTable = async (req, res) => {
 const dynamicDNSsetup = async (req, res) => {
     public_ip.address();
 } */
-
-
+const accountLogs = async (req, res) => {
+    const cityRef = db.collection('users').doc(req.session.username);
+    const doc = await cityRef.get();
+    if (!doc.exists) {
+        console.log('No such document!');
+    } else {
+        res.json(doc.data().account.action_logs)
+    }
+}
 module.exports = {
     root,
     auth,
@@ -259,5 +207,6 @@ module.exports = {
     noEndpoint,
     writeUser,
     tables,
-    subjectTable
+    subjectTable,
+    accountLogs
 }

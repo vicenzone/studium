@@ -10,6 +10,8 @@ router.get('/logout', dataController.logout);
 router.get('/writeuser', dataController.writeUser);
 
 router.get('/lessons', dataController.tables);
+
+router.get('/api/account/logs', dataController.accountLogs)
 router.get('/api/subject/all', dataController.subjectTable);
 
 
