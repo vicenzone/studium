@@ -199,6 +199,31 @@ const accountLogs = async (req, res) => {
         res.json(doc.data().account.action_logs)
     }
 }
+
+const lastLessonsWatched = async (req, res) => {
+    res.json([
+        {
+            "icon_url": "https://img.icons8.com/external-wanicon-lineal-color-wanicon/50/000000/external-history-university-courses-wanicon-lineal-color-wanicon.png",
+            "name": "Lingua e Letteratura Italiana"
+        },
+        {
+            "name": "Lingua Inglese",
+            "icon_url": "https://img.icons8.com/doodle/48/000000/great-britain.png"
+        },
+        {
+            "icon_url": "https://img.icons8.com/external-vitaliy-gorbachev-lineal-color-vitaly-gorbachev/60/000000/external-spain-flags-vitaliy-gorbachev-lineal-color-vitaly-gorbachev.png",
+            "name": "Seconda Lingua Comunitaria"
+        },
+        {
+            "icon_url": "https://img.icons8.com/external-itim2101-lineal-color-itim2101/64/000000/external-economy-computer-technology-itim2101-lineal-color-itim2101.png",
+            "name": "Economia Aziendale"
+        },
+        {
+            "name": "Storia Cittadinanza e Costitutzione",
+            "icon_url": "https://img.icons8.com/fluency/48/000000/law.png"
+        }]
+    )
+}
 module.exports = {
     root,
     auth,
@@ -208,5 +233,6 @@ module.exports = {
     writeUser,
     tables,
     subjectTable,
-    accountLogs
+    accountLogs,
+    lastLessonsWatched
 }
