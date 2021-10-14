@@ -1,6 +1,16 @@
 
 var path = require('path');
 
+const UIDGenerator = require('uid-generator');
+const uidgen = new UIDGenerator();
+/*
+var public_ip = require("ip");
+
+var cloudflare = require('cloudflare')({
+    email: 'rwi@rewon.it',
+    key: 'your Cloudflare API key'
+}); */
+
 const admin = require('firebase-admin');
 const serviceAccount = require('../services/firebase.json');
 admin.initializeApp({
@@ -127,67 +137,67 @@ const writeUser = async (req, res) => {
         }
     }
 
- 
 
 
-          /*  name: 'lorenzo',
-            surname: 'Fiale',
-            email: 'info@lorenzofiale.com',
-            study_branch: '4-5AFM',
-            status: 'active',
-            account: {
-                password: '123',
-                last_login_ip: '127.0.0.33',
-                last_login_timestamp: '2021-09-28 08:18:50',
-                action_logs: {
-                    1634042789: {
-                        url: '/lessons',
-                        type: 'page load',
-                    }
-                }
-            },
-            personal_info: {
-                street: "Via Stelvio",
-                street_number: 21,
-                cap: 20150,
-                city: 'MI',
-                country: 'IT'
-            },
-            lessons: {
-                general_data: {
-                    tot_hours_lessons: 5,
-                    remaining_lessons: 2491,
-                    new_lesson: {
-                        lessons_count_last_login: 2141,
-                        tot_lessons_currently: 2189
-                    },
-                    last_five_lessons_visites: {
-                        one: {
-                            class: '4AFM',
-                            subject: 'Economia',
-                            teacher: 'Confalonieri',
-                            lesson: 'Domanda e Offerta',
-                            watchtime: '3'
-                        },
-                        two: {
-                            class: '4AFM',
-                            subject: 'Economia politica',
-                            teacher: 'Dolciotti',
-                            lesson: 'Costituzione',
-                            watchtime: '13'
 
-                        },
-                        three: {
-                            class: '4AFM',
-                            subject: 'Economia politica',
-                            teacher: 'Dolciotti',
-                            lesson: 'Fonti atto & Fonti fatto',
-                            watchtime: '7'
-                        }
-                    }
-                }
-            }*/
-          
+    /*  name: 'lorenzo',
+      surname: 'Fiale',
+      email: 'info@lorenzofiale.com',
+      study_branch: '4-5AFM',
+      status: 'active',
+      account: {
+          password: '123',
+          last_login_ip: '127.0.0.33',
+          last_login_timestamp: '2021-09-28 08:18:50',
+          action_logs: {
+              1634042789: {
+                  url: '/lessons',
+                  type: 'page load',
+              }
+          }
+      },
+      personal_info: {
+          street: "Via Stelvio",
+          street_number: 21,
+          cap: 20150,
+          city: 'MI',
+          country: 'IT'
+      },
+      lessons: {
+          general_data: {
+              tot_hours_lessons: 5,
+              remaining_lessons: 2491,
+              new_lesson: {
+                  lessons_count_last_login: 2141,
+                  tot_lessons_currently: 2189
+              },
+              last_five_lessons_visites: {
+                  one: {
+                      class: '4AFM',
+                      subject: 'Economia',
+                      teacher: 'Confalonieri',
+                      lesson: 'Domanda e Offerta',
+                      watchtime: '3'
+                  },
+                  two: {
+                      class: '4AFM',
+                      subject: 'Economia politica',
+                      teacher: 'Dolciotti',
+                      lesson: 'Costituzione',
+                      watchtime: '13'
+
+                  },
+                  three: {
+                      class: '4AFM',
+                      subject: 'Economia politica',
+                      teacher: 'Dolciotti',
+                      lesson: 'Fonti atto & Fonti fatto',
+                      watchtime: '7'
+                  }
+              }
+          }
+      }*/
+
 
     // Add a new document in collection "cities" with ID 'LA'
     await db.collection('classes').doc('afm').set(data);
@@ -196,34 +206,51 @@ const writeUser = async (req, res) => {
 
 
 const tables = async (req, res) => {
-    const cityRef = db.collection('users').doc('lorenzofiale');
-    const doc = await cityRef.get();
-    if (!doc.exists) {
-        console.log('No such document!');
-    } else {
-        console.log('Document data:', doc.data());
-    }
+    if (req.session.loggedin) {
+        //res.send('Welcome back, ' + req.session.username + '!');
+        const cityRef = db.collection('users').doc('lorenzofiale');
+        const doc = await cityRef.get();
+        if (!doc.exists) {
+            console.log('No such document!');
+        } else {
+            console.log('Document data:', doc.data());
+        }
 
-    res.render(path.join(__dirname + '../../public/html/tables.html'), {
-        page_title: 'Studium online',
-        top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg',
-        top_left_title: 'Studium online',
-        subject_list: ''
-    });
+        res.render(path.join(__dirname + '../../public/html/tables.html'), {
+            page_title: 'Studium online',
+            top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg',
+            top_left_title: 'Studium online',
+            subject_list: ''
+        });
+
+    } else {
+        res.render(path.join(__dirname + '../../public/html/sign-in.html'), { error: 'Sessiona scaduta o non valida', page_title: 'Studium Online' });
+    }
+    res.end();
 }
 
 const subjectTable = async (req, res) => {
 
-    const cityRef = db.collection('classes').doc('afm');
-    const doc = await cityRef.get();
-    if (!doc.exists) {
-        console.log('No such document!');
+    if (req.session.loggedin) {
+        const cityRef = db.collection('classes').doc('afm');
+        const doc = await cityRef.get();
+        if (!doc.exists) {
+            res.json({ status: 'error, classes not found', info: 'db query failed, impossible to load classes', help: 'si prega di contattare il reparto tecnico o la segreteria', id: await uidgen.generate() }).status(500);
+        } else {
+            res.json(doc.data().first.subjects)
+        }
     } else {
-        console.log('Document data:', doc.data());
+        res.json({ status: 'request not allowed', info: 'login required', id: await uidgen.generate() }).status(401);
     }
-    console.log(doc.data().first.subjects);
-    res.json(doc.data().first.subjects)
+
 }
+
+/*
+const dynamicDNSsetup = async (req, res) => {
+    public_ip.address();
+} */
+
+
 module.exports = {
     root,
     auth,

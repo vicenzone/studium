@@ -1,13 +1,13 @@
 require 'mina/deploy'
 require 'mina/git'
 
-set :domain, '62.11.168.16'
+set :domain, '82.84.89.28'
 set :user, 'deploy'
 set :deploy_to, '/var/www/studium'
 set :repository, 'https://vicezone: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@github.com/vicenzone/studium.git'
 set :branch, 'master'
 set :forward_agent, true
-set :keep_releases, 5
+set :keep_releases, 100
 set :execution_mode, :pretty
 
 desc "Deploy to all servers"
@@ -26,8 +26,9 @@ task :deploy do
     on :launch do
       in_path(fetch(:current_path)) do
          invoke :'deploy:cleanup'
-         command 'pm2 delete all -s || true'
-         command %{pm2 start app.js}
+         command %{forever stopall}
+         command %{forever start app.js}
+
 
       end
     end

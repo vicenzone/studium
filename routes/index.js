@@ -9,8 +9,8 @@ router.get('/home', dataController.home);
 router.get('/logout', dataController.logout);
 router.get('/writeuser', dataController.writeUser);
 
-router.get('/tables', dataController.tables);
-router.get('/subject/json', dataController.subjectTable);
+router.get('/lessons', dataController.tables);
+router.get('/api/subject/all', dataController.subjectTable);
 
 
 router.get('*', dataController.noEndpoint);
