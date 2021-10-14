@@ -26,10 +26,8 @@ task :deploy do
     on :launch do
       in_path(fetch(:current_path)) do
          invoke :'deploy:cleanup'
-         command %{forever stopall}
-         command %{forever start app.js}
-
-
+         command 'pm2 delete all -s || true'
+         command %{pm2 start app.js --name studium-demo}
       end
     end
   end
