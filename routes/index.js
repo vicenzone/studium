@@ -15,5 +15,10 @@ router.get('/api/account/logs', dataController.accountLogs)
 router.get('/api/subject/all', dataController.subjectTable);
 router.get('/api/lessons/last_watched', dataController.lastLessonsWatched)
 
+router.get('/api/lessons/:id/argoments/', dataController.getLessonsOfSubjectAPI)
+router.get('/argoments/:id', dataController.getLessonsOfSubject)
+
+router.get('/player/:id', dataController.viewLessons)
+
 router.get('*', dataController.noEndpoint);
 module.exports = router

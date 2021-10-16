@@ -332,67 +332,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="col-lg-4 col-md-6">
-          <div class="card h-100">
-            <div class="card-header pb-0">
-              <h6>Registro accessi</h6>
-              <p class="text-sm">
-                <i class="fa fa-arrow-right text-success" aria-hidden="true"></i>
-                <span class="font-weight-bold">Veririca gli accessi, in caso di attività sospetta cambia la
-                  password.</span>
-              </p>
-            </div>
-            <div class="card-body p-3">
-              <div class="timeline timeline-one-side">
-                <div class="timeline-block mb-3">
-                  <span class="timeline-step">
-                    <i class="ni ni-bell-55 text-success text-gradient"></i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">Nuova circolare da visualizzare</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">22 DEC 7:20 PM</p>
-                  </div>
-                </div>
-                <div class="timeline-block mb-3">
-                  <span class="timeline-step">
-                    <i class="ni ni-html5 text-danger text-gradient"></i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">Informatica: i linguaggi di programmazione</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">21 DEC 11 PM</p>
-                  </div>
-                </div>
-                <div class="timeline-block mb-3">
-                  <span class="timeline-step">
-                    <i class="ni ni-cart text-info text-gradient"></i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">Business: La domanda e l'offerta</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">21 DEC 9:34 PM</p>
-                  </div>
-                </div>
-                <div class="timeline-block mb-3">
-                  <span class="timeline-step">
-                    <i class="ni ni-key-25 text-primary text-gradient"></i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">Accesso: Milano, italy</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">18 DEC 4:54 AM</p>
-                  </div>
-                </div>
-                <div class="timeline-block">
-                  <span class="timeline-step">
-                    <i class="ni ni-money-coins text-dark text-gradient"></i>
-                  </span>
-                  <div class="timeline-content">
-                    <h6 class="text-dark text-sm font-weight-bold mb-0">Informatica: I database</h6>
-                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">17 DEC</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
 
       <div class="row mt-4">
@@ -530,6 +469,67 @@
       });
       //});
     });
+  </script>
+
+  <script>
+    // Radar chart
+    var ctx9 = document.getElementById("radar-chart").getContext("2d");
+
+    new Chart(ctx9, {
+      type: "pie-chart",
+      data: {
+        labels: ["Italiano", "Inglese", "Spagnolo", "Economia", "diritto", "Storia", "Informatica", "Matematica"],
+        datasets: [{
+            label: "",
+            backgroundColor: "rgba(58,65,111,0.2)",
+            data: [20, 18, 19, 21, 20, 17, 19, 18],
+            borderDash: [5, 5],
+          },
+          {
+            label: "",
+            backgroundColor: "",
+            data: [0, 0, 0, 0, 0, 0, 0, 0, ],
+            borderDash: [0, 0],
+          }
+        ]
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: true,
+          }
+        }
+      }
+    });
+
+    // Radar chart
+    var ctx10 = document.getElementById("polar-chart").getContext("2d");
+
+    new Chart(ctx10, {
+      type: "polarArea",
+      data: {
+        labels: [
+          'Red',
+          'Green',
+          'Yellow',
+          'Grey',
+          'Blue'
+        ],
+        datasets: [{
+          label: 'My First Dataset',
+          data: [11, 16, 7, 3, 14],
+          backgroundColor: ['#17c1e8', '#cb0c9f', '#3A416F', '#a8b8d8', '#82d616'],
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: false,
+          }
+        }
+      }
+    });
+  </script>
   </script>
   <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
