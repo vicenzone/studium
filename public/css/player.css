@@ -97,7 +97,7 @@ progress::-moz-progress-bar {
 }
 
 .seek {
-    position: absolute;
+    position: relative;
     top: 0;
     width: 100%;
     cursor: pointer;
