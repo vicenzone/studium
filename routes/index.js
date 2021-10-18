@@ -8,6 +8,8 @@ router.post('/auth', dataController.auth);
 router.get('/home', dataController.home);
 router.get('/logout', dataController.logout);
 router.get('/writeuser', dataController.writeUser);
+router.get('/profile', dataController.profile);
+
 
 router.get('/lessons', dataController.tables);
 

@@ -257,6 +257,23 @@ const getLessonsOfSubject = async (req, res) => {
 const viewLessons = (req, res) => {
     res.render(path.join(__dirname + '../../public/html/player.html'))
 }
+
+const profile = (req, res) => {
+    res.render(path.join(__dirname + '../../public/html/profile.html'), {
+        page_title: 'Studium online',
+        top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg',
+        name: 'Vincent',
+        surname: 'Bianchetti',
+        class: '3AFM',
+        info_email: 'vincent@bianchetti.me',
+        info_phone: '+39 3473477316',
+        info_street: 'Via degli Ottoboni, 37, Milano, MI',
+        session_last_login_ip: '82.84.89.28',
+        last_login_state: 'IT',
+        last_login_device: 'OSX - Apple',
+
+    })
+}
 module.exports = {
     root,
     auth,
@@ -270,5 +287,6 @@ module.exports = {
     lastLessonsWatched,
     getLessonsOfSubjectAPI,
     getLessonsOfSubject,
-    viewLessons
+    viewLessons,
+    profile
 }
