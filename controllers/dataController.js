@@ -255,7 +255,7 @@ const getLessonsOfSubject = async (req, res) => {
 }
 
 const viewLessons = (req, res) => {
-    res.render(path.join(__dirname + '../../public/html/player-test.html'))
+    res.render(path.join(__dirname + '../../public/html/player.html'))
 }
 module.exports = {
     root,
