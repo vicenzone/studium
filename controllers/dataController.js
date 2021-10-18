@@ -255,24 +255,36 @@ const getLessonsOfSubject = async (req, res) => {
 }
 
 const viewLessons = (req, res) => {
-    res.render(path.join(__dirname + '../../public/html/player.html'))
+    if (req.session.loggedin) {
+        res.render(path.join(__dirname + '../../public/html/player.html'))
+    } else {
+        //res.render(path.join(__dirname + '../../public/html/sign-in.html'), { error: 'Sessiona scaduta o non valida', page_title: 'Studium Online' });
+        res.redirect('/')
+    }
+    res.end();
 }
 
 const profile = (req, res) => {
-    res.render(path.join(__dirname + '../../public/html/profile.html'), {
-        page_title: 'Studium online',
-        top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg',
-        name: 'Vincent',
-        surname: 'Bianchetti',
-        class: '3AFM',
-        info_email: 'vincent@bianchetti.me',
-        info_phone: '+39 3473477316',
-        info_street: 'Via degli Ottoboni, 37, Milano, MI',
-        session_last_login_ip: '82.84.89.28',
-        last_login_state: 'IT',
-        last_login_device: 'OSX - Apple',
+    if (req.session.loggedin) {
+        res.render(path.join(__dirname + '../../public/html/profile.html'), {
+            page_title: 'Studium online',
+            top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg',
+            name: 'Vincent',
+            surname: 'Bianchetti',
+            class: '3AFM',
+            info_email: 'vincent@bianchetti.me',
+            info_phone: '+39 3473477316',
+            info_street: 'Via degli Ottoboni, 37, Milano, MI',
+            session_last_login_ip: '82.84.89.28',
+            last_login_state: 'IT',
+            last_login_device: 'OSX - Apple',
 
-    })
+        })
+    } else {
+        //res.render(path.join(__dirname + '../../public/html/sign-in.html'), { error: 'Sessiona scaduta o non valida', page_title: 'Studium Online' });
+        res.redirect('/')
+    }
+    res.end();
 }
 module.exports = {
     root,
