@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -52,5 +54,5 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 let port = 2020
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Example app listening at http://localhost:${process.env.PORT}`)
 })

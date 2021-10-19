@@ -61,13 +61,8 @@ const auth = async (req, res) => {
 }
 
 const home = (req, res) => {
-    if (req.session.loggedin) {
-        //res.send('Welcome back, ' + req.session.username + '!');
-        res.render(path.join(__dirname + '../../public/html/dashboard.html'), { page_title: 'Studium Online', top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg' });
-    } else {
-        res.render(path.join(__dirname + '../../public/html/sign-in.html'), { error: 'Sessiona scaduta o non valida', page_title: 'Studium Online' });
-    }
-    res.end();
+    //res.send('Welcome back, ' + req.session.username + '!');
+    res.render(path.join(__dirname + '../../public/html/dashboard.html'), { page_title: 'Studium Online', top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg' });
 }
 
 const logout = (req, res) => {
@@ -147,35 +142,27 @@ const writeUser = async (req, res) => {
 
 
 const tables = async (req, res) => {
-    if (req.session.loggedin) {
 
-        res.render(path.join(__dirname + '../../public/html/lessons.html'), {
-            page_title: 'Studium online',
-            top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg',
-            top_left_title: 'Studium online',
-            subject_list: ''
-        });
+    res.render(path.join(__dirname + '../../public/html/lessons.html'), {
+        page_title: 'Studium online',
+        top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg',
+        top_left_title: 'Studium online',
+        subject_list: ''
+    });
 
-    } else {
-        //res.render(path.join(__dirname + '../../public/html/sign-in.html'), { error: 'Sessiona scaduta o non valida', page_title: 'Studium Online' });
-        res.redirect('/')
-    }
-    res.end();
+
 }
 
 const subjectTable = async (req, res) => {
 
-    if (req.session.loggedin) {
-        const cityRef = db.collection('classes').doc('afm');
-        const doc = await cityRef.get();
-        if (!doc.exists) {
-            res.json({ status: 'error, classes not found', info: 'db query failed, impossible to load classes', help: 'si prega di contattare il reparto tecnico o la segreteria', id: await uidgen.generate() }).status(500);
-        } else {
-            res.json(doc.data().first.subjects)
-        }
+    const cityRef = db.collection('classes').doc('afm');
+    const doc = await cityRef.get();
+    if (!doc.exists) {
+        res.json({ status: 'error, classes not found', info: 'db query failed, impossible to load classes', help: 'si prega di contattare il reparto tecnico o la segreteria', id: await uidgen.generate() }).status(500);
     } else {
-        res.json({ status: 'request not allowed', info: 'login required', id: await uidgen.generate() }).status(401);
+        res.json(doc.data().first.subjects)
     }
+
 
 }
 
@@ -229,63 +216,75 @@ const getLessonsOfSubjectAPI = async (req, res) => {
         const data = []
         doc.data().first.subjects.forEach(element => {
             if (element.id && element.id == req.params.id) {
-                console.log(element);
-                data.push(element)
+                console.log(element.argoments);
+                data.push(element.argoments)
             }
         });
-        res.json(data)
+        console.log(data[0]);
+        res.json(data[0])
     }
 }
 
 const getLessonsOfSubject = async (req, res) => {
-    if (req.session.loggedin) {
-        if (req.params.id) {
-            res.render(path.join(__dirname + '../../public/html/argoments.html'), {
-                page_title: 'Studium online',
-                top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg',
-                top_left_title: 'Studium online',
-                subject_list: ''
-            });
-        }
-    } else {
-        //res.render(path.join(__dirname + '../../public/html/sign-in.html'), { error: 'Sessiona scaduta o non valida', page_title: 'Studium Online' });
-        res.redirect('/')
+    if (req.params.id) {
+        res.render(path.join(__dirname + '../../public/html/argoments.html'), {
+            page_title: 'Studium online',
+            top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg',
+            top_left_title: 'Studium online',
+            subject_list: ''
+        });
     }
-    res.end();
 }
 
-const viewLessons = (req, res) => {
-    if (req.session.loggedin) {
-        res.render(path.join(__dirname + '../../public/html/player.html'))
-    } else {
-        //res.render(path.join(__dirname + '../../public/html/sign-in.html'), { error: 'Sessiona scaduta o non valida', page_title: 'Studium Online' });
-        res.redirect('/')
+
+const viewLessons = async (req, res) => {
+    if (req.query.vd && req.params.id) {
+        const videoRef = db.collection('classes').doc('afm');
+        const doc = await videoRef.get();
+        if (!doc.exists) {
+            console.log('No such document!');
+        } else {
+            const data = []
+            doc.data().first.subjects.forEach(element => {
+                if (element.id && element.id == req.params.id) {
+                    data.push(element.argoments)
+                }
+            });
+            if (data[0][req.query.vd]) {
+                console.log(data[0][req.query.vd]);
+                return res.render(path.join(__dirname + '../../public/html/player.html'), {
+                    page_title: 'Studium online',
+                    top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg',
+                    top_left_title: 'Studium online',
+
+                    video_url: data[0][req.query.vd].url,
+                    lessons_name: data[0][req.query.vd].name,
+
+                })
+            }
+        }
     }
-    res.end();
+    return res.redirect('/404?vid=')
 }
 
 const profile = (req, res) => {
-    if (req.session.loggedin) {
-        res.render(path.join(__dirname + '../../public/html/profile.html'), {
-            page_title: 'Studium online',
-            top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg',
-            name: 'Vincent',
-            surname: 'Bianchetti',
-            class: '3AFM',
-            info_email: 'vincent@bianchetti.me',
-            info_phone: '+39 3473477316',
-            info_street: 'Via degli Ottoboni, 37, Milano, MI',
-            session_last_login_ip: '82.84.89.28',
-            last_login_state: 'IT',
-            last_login_device: 'OSX - Apple',
+    res.render(path.join(__dirname + '../../public/html/profile.html'), {
+        page_title: 'Studium online',
+        top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg',
+        name: 'Vincent',
+        surname: 'Bianchetti',
+        class: '3AFM',
+        info_email: 'vincent@bianchetti.me',
+        info_phone: '+39 3473477316',
+        info_street: 'Via degli Ottoboni, 37, Milano, MI',
+        session_last_login_ip: '82.84.89.28',
+        last_login_state: 'IT',
+        last_login_device: 'OSX - Apple',
 
-        })
-    } else {
-        //res.render(path.join(__dirname + '../../public/html/sign-in.html'), { error: 'Sessiona scaduta o non valida', page_title: 'Studium Online' });
-        res.redirect('/')
-    }
+    })
     res.end();
 }
+
 module.exports = {
     root,
     auth,
@@ -300,5 +299,5 @@ module.exports = {
     getLessonsOfSubjectAPI,
     getLessonsOfSubject,
     viewLessons,
-    profile
+    profile,
 }

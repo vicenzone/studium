@@ -239,27 +239,29 @@
         success: function (data) {
           console.log(data);
 
+          for (let i = 0; i < data.length; i++) {
+            const element = data[i];
 
-          data.forEach(function (data, index) {
             $('tbody#lessons_tab').append(
-              `<tr id='${data.name}'>` +
+              `<tr id='${data[i].name}'>` +
               '<td>' +
               '<div class="d-flex px-2">' +
               '<div>' +
-              `<img src="${data.icon_url}" class="avatar avatar-sm rounded-circle me-2" alt="spotify">` +
+              `<img src="${data[i].icon}" class="avatar avatar-sm rounded-circle me-2">` +
               '</div>' +
               '<div class="my-auto">' +
-              `<h6 class="mb-0 text-sm">${data.name}</h6>` +
+              `<h6 class="mb-0 text-sm">${data[i].name}</h6>` +
               '</div>' +
               '</div>' +
               '</td>' +
               '<td>1</td>' +
               '<td>293</td>' +
-              `<td><button id="getLesson" class="btn bg-gradient-info btn-sm mb-0" onclick="location.href = '/player/89230';" >Visualizza</button></td>` +
+              `<td><button id="getLesson" class="btn bg-gradient-info btn-sm mb-0" onclick="location.href = '/player/${window.location.href.split("/").pop()}?vd=${[i]}';" >Visualizza</button></td>` +
               '</tr>'
             )
             console.log(data);
-          });
+
+          }
         },
         error: function (data) {
           alert( /*data.responseText*/
