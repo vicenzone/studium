@@ -3,13 +3,6 @@ var path = require('path');
 
 const UIDGenerator = require('uid-generator');
 const uidgen = new UIDGenerator();
-/*
-var public_ip = require("ip");
-
-var cloudflare = require('cloudflare')({
-    email: 'rwi@rewon.it',
-    key: 'your Cloudflare API key'
-}); */
 
 const admin = require('firebase-admin');
 const serviceAccount = require('../services/firebase.json');
@@ -30,8 +23,8 @@ const auth = async (req, res) => {
     var username = req.body.username;
     var password = req.body.password;
     if (username && password) {
-        const cityRef = db.collection('users').doc(username);
-        const doc = await cityRef.get();
+        const user = db.collection('users').doc(username);
+        const doc = await user.get();
         if (!doc.exists) {
             res.render(path.join(__dirname + '../../public/html/sign-in.html'), { error: 'Utente non disponibile', page_title: 'Studium Online' });
 
@@ -40,11 +33,23 @@ const auth = async (req, res) => {
             console.log('Document data:', doc.data());
             //res.json(doc.data())
             var passw = doc.data().account.password
+            var class_number_branch = doc.data().study_branch
 
             if (password == passw) {
                 req.session.loggedin = true;
                 req.session.username = username;
+
+                const class_years = []
+                for (let i = 0; i < class_number_branch.length; i++) {
+                    const element = class_number_branch[i];
+                    class_years.push(element)
+                }
+                console.log(class_years);
+
+                req.session.class_number_branch = class_years;
+                req.session.activeYear = class_number_branch[0]
                 res.redirect('/home');
+                console.log(req.session);
                 res.end();
 
             } else {
@@ -62,7 +67,10 @@ const auth = async (req, res) => {
 
 const home = (req, res) => {
     //res.send('Welcome back, ' + req.session.username + '!');
-    res.render(path.join(__dirname + '../../public/html/dashboard.html'), { page_title: 'Studium Online', top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg' });
+    res.render(path.join(__dirname + '../../public/html/dashboard.html'), {
+        page_title: 'Studium Online',
+        top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg'
+    });
 }
 
 const logout = (req, res) => {
@@ -75,74 +83,12 @@ const noEndpoint = (req, res) => {
 }
 
 const writeUser = async (req, res) => {
-
-
-    /*
-        const cityRef = db.collection('users').doc('lorenzofiale');
-        const doc = await cityRef.get();
-        if (!doc.exists) {
-            console.log('No such document!');
-        } else {
-            console.log('Document data:', doc.data());
-            res.json(doc.data().account.password)
-        } */
-
-    const data = {
-        name: 'lorenzo',
-        surname: 'Fiale',
-        email: 'info@lorenzofiale.com',
-        study_branch: '4-5AFM',
-        status: 'active',
-        account: {
-            password: '123',
-            last_login_ip: '127.0.0.33',
-            last_login_timestamp: '2021-09-28 08:18:50',
-            action_logs: [{
-                type: 'login',
-                timestamp: 1634237461,
-                url: 'https://studium.bianchetti.me'
-            }, {
-                type: 'lessons',
-                timestamp: 1634237565,
-                subject: 'English',
-                title: 'Business: company type',
-                url: 'https://studium.bianchetti.me/lessons/english/9219'
-            }, {
-                type: 'lessons',
-                timestamp: 1634237793,
-                subject: 'Italiano',
-                title: 'Scuola poetica siciliana',
-                url: 'https://studium.bianchetti.me/lessons/italiano/6492'
-            }]
-        },
-        personal_info: {
-            street: "Via Stelvio",
-            street_number: 21,
-            cap: 20150,
-            city: 'MI',
-            country: 'IT'
-        },
-        lessons: {
-            general_data: {
-                tot_hours_lessons: 5,
-                remaining_lessons: 2491,
-                new_lesson: {
-                    lessons_count_last_login: 2141,
-                    tot_lessons_currently: 2189
-                },
-            }
-        }
-    }
-
-
     // Add a new document in collection "cities" with ID 'LA'
     await db.collection('users').doc('vincent').set(data);
     res.json({ msg: 'done' })
 }
 
-
 const tables = async (req, res) => {
-
     res.render(path.join(__dirname + '../../public/html/lessons.html'), {
         page_title: 'Studium online',
         top_left_logo_url: 'https://www.centrostudimilano.it/wp-content/uploads/2017/02/logo-Centro-Studi-Milano.jpg',
@@ -154,7 +100,6 @@ const tables = async (req, res) => {
 }
 
 const subjectTable = async (req, res) => {
-
     const cityRef = db.collection('classes').doc('afm');
     const doc = await cityRef.get();
     if (!doc.exists) {
@@ -162,14 +107,8 @@ const subjectTable = async (req, res) => {
     } else {
         res.json(doc.data().first.subjects)
     }
-
-
 }
 
-/*
-const dynamicDNSsetup = async (req, res) => {
-    public_ip.address();
-} */
 const accountLogs = async (req, res) => {
     const cityRef = db.collection('users').doc(req.session.username);
     const doc = await cityRef.get();
@@ -207,7 +146,6 @@ const lastLessonsWatched = async (req, res) => {
 
 
 const getLessonsOfSubjectAPI = async (req, res) => {
-
     const cityRef = db.collection('classes').doc('afm');
     const doc = await cityRef.get();
     if (!doc.exists) {
@@ -285,6 +223,16 @@ const profile = (req, res) => {
     res.end();
 }
 
+const getActiveYear = async (req, res) => {
+    const user = db.collection('users').doc(req.session.username);
+    const doc = await user.get();
+    var class_number_branch = doc.data().study_branch;
+    var active_year = req.session.activeYear;
+    res.json({
+        years: class_number_branch,
+        active_year: req.session.activeYear
+    })
+}
 module.exports = {
     root,
     auth,
@@ -300,4 +248,5 @@ module.exports = {
     getLessonsOfSubject,
     viewLessons,
     profile,
+    getActiveYear
 }
