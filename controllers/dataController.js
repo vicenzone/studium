@@ -100,7 +100,7 @@ const tables = async (req, res) => {
 }
 
 const subjectTable = async (req, res) => {
-    const cityRef = db.collection('classes').doc('afm');
+    const cityRef = db.collection('classes').doc(req.session.activeYear);
     const doc = await cityRef.get();
     if (!doc.exists) {
         res.json({ status: 'error, classes not found', info: 'db query failed, impossible to load classes', help: 'si prega di contattare il reparto tecnico o la segreteria', id: await uidgen.generate() }).status(500);
@@ -146,7 +146,7 @@ const lastLessonsWatched = async (req, res) => {
 
 
 const getLessonsOfSubjectAPI = async (req, res) => {
-    const cityRef = db.collection('classes').doc('afm');
+    const cityRef = db.collection('classes').doc(req.session.activeYear);
     const doc = await cityRef.get();
     if (!doc.exists) {
         console.log('No such document!');
@@ -177,7 +177,7 @@ const getLessonsOfSubject = async (req, res) => {
 
 const viewLessons = async (req, res) => {
     if (req.query.vd && req.params.id) {
-        const videoRef = db.collection('classes').doc('afm');
+        const videoRef = db.collection('classes').doc(req.session.activeYear);
         const doc = await videoRef.get();
         if (!doc.exists) {
             console.log('No such document!');
@@ -233,6 +233,34 @@ const getActiveYear = async (req, res) => {
         active_year: req.session.activeYear
     })
 }
+
+const changeActiveYear = async (req, res) => {
+    const user = db.collection('users').doc(req.session.username);
+    const doc = await user.get();
+    var class_number_branch = doc.data().study_branch;
+
+    if (class_number_branch.includes(req.params.year)) {
+        req.session.activeYear = req.params.year;
+        if (req.query.json == 'true') {
+            return res.json({
+                msg: "done",
+                active_year: req.session.activeYear
+            })
+        } else {
+            res.redirect('/')
+        }
+    }
+    if (req.query.json == 'true') {
+        return res.json({
+            msg: 'failed',
+            info: 'invalid or non active year selected'
+        })
+    } else {
+        res.redirect('/500', {
+            msg: 'invalid or non active year selected'
+        }).status(500)
+    }
+}
 module.exports = {
     root,
     auth,
@@ -248,5 +276,6 @@ module.exports = {
     getLessonsOfSubject,
     viewLessons,
     profile,
-    getActiveYear
+    getActiveYear,
+    changeActiveYear
 }
