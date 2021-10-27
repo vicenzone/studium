@@ -173,7 +173,7 @@
               </div>
             </div>
             <div class="card-body p-3">
-              <video id="my-video" class="video-js video-js-responsive-container vjs-theme-fantasy " controls
+              <video id="myVideo" class="video-js video-js-responsive-container vjs-theme-fantasy " controls
                 preload="auto" width="640" height="264" poster="../img/demo-player.png" data-setup='{"fluid": true}'>
                 <source src="<%= video_url %>" type="video/mp4" />
                 <p class="vjs-no-js">
@@ -297,6 +297,15 @@
   <script src="../js/yearSelector.js"></script>
 
   <script src="../js/player.js"></script>
+  <script>
+    var player = videojs('myVideo');
+    $(document).ready(function () {
+      var currentTimeSaver = setInterval(function () {
+        console.log(player.currentTime());
+        // will return current time if video paused at some time. Intially it would be 0.
+      }, 30000);
+    });
+  </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

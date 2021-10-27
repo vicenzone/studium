@@ -27,5 +27,9 @@ router.get('/player/:id', session, dataController.viewLessons)
 router.get('/api/session/activeYear', session, dataController.getActiveYear)
 router.get('/api/session/setYear/:year', session, dataController.changeActiveYear)
 
+router.get('/api/testpoint', session, dataController.testPoint)
+
+router.get('/error/:errCode', dataController.errorPage)
+
 router.get('*', dataController.noEndpoint);
 module.exports = router

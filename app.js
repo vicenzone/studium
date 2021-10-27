@@ -4,7 +4,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+var morgan = require('morgan');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 
@@ -15,7 +15,7 @@ var indexRouter = require('./routes/index');
 var securityRouter = require('./routes/secure')
 //var videoRouter = require('./routes/video')
 app.use('/', securityRouter);
-app.use(logger('dev'));
+app.use(morgan('dev'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -50,9 +50,10 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.json(err);
 });
+const logger = require('./libs/logger.js')
 
 module.exports = app;
 let port = 2020
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${process.env.PORT}`)
+  logger.info(`Example app listening at http://localhost:${process.env.PORT}`)
 })

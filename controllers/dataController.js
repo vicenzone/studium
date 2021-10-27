@@ -1,11 +1,13 @@
 
 var path = require('path');
+require("dotenv").config();
 
 const UIDGenerator = require('uid-generator');
 const uidgen = new UIDGenerator();
 
 const admin = require('firebase-admin');
 const serviceAccount = require('../services/firebase.json');
+const { now } = require('moment');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
@@ -189,6 +191,16 @@ const viewLessons = async (req, res) => {
                 }
             });
             if (data[0][req.query.vd]) {
+                /*
+                var logger = [{
+                    type: 'lessonView',
+                    lesson_name: data[0][req.query.vd].name,
+                    video_url: data[0][req.query.vd].url,
+                    timestamp: Date.now(),
+ 
+                }]
+                await db.collection('users').doc(req.session.username + '/account/action_logs/').set({ logger }); */
+
                 console.log(data[0][req.query.vd]);
                 return res.render(path.join(__dirname + '../../public/html/player.html'), {
                     page_title: 'Studium online',
@@ -202,7 +214,11 @@ const viewLessons = async (req, res) => {
             }
         }
     }
-    return res.redirect('/404?vid=')
+    return res.render(path.join(__dirname + '../../public/html/error.html'), {
+        err_desc: '',
+        err_code: '404',
+        err_info: 'Questa lezione non è stata trovata!'
+    }).status(404)
 }
 
 const profile = (req, res) => {
@@ -256,10 +272,85 @@ const changeActiveYear = async (req, res) => {
             info: 'invalid or non active year selected'
         })
     } else {
-        res.redirect('/500', {
-            msg: 'invalid or non active year selected'
+        return res.render(path.join(__dirname + '../../public/html/error.html'), {
+            err_desc: 'Errore interno / azione proibita',
+            err_code: '500',
+            err_info: 'invalid or non active year selected è stato selezionato un anno di studio non autorizzato oppure non valido'
         }).status(500)
     }
+}
+
+const errorPage = async (req, res) => {
+    switch (req.params.errCode) {
+        case '401':
+            return res.render(path.join(__dirname + '../../public/html/error.html'), {
+                err_desc: 'Azione proibita',
+                err_code: '401',
+                err_info: 'Stai tentando di eseguire un azione non autorizzata!'
+            }).status(403)
+
+        case '403':
+            return res.render(path.join(__dirname + '../../public/html/error.html'), {
+                err_desc: 'Azione non autrizzata',
+                err_code: '403',
+                err_info: 'Stai tentando di eseguire un azione non autorizzata!'
+            }).status(403)
+
+        case '404':
+            return res.render(path.join(__dirname + '../../public/html/error.html'), {
+                err_desc: 'Pagina non trovata',
+                err_code: '404',
+                err_info: 'La pagina che stavi cercando non esiste!'
+            }).status(404)
+
+        default:
+            return res.render(path.join(__dirname + '../../public/html/error.html'), {
+                err_desc: 'Errore interno',
+                err_code: '500',
+                err_info: 'Siamo spiacenti, si è verificato un errore interno del server, si prega di riprovare più tardi, grazie.'
+            }).status(500)
+    }
+}
+
+const testPoint = async (req, res) => {
+    const user = db.collection('users').doc(req.session.username);
+    const doc = await user.get()
+    var arr = doc.data().lessons.watchtime;
+
+
+    var lessonRef = db.collection(`users/${req.session.username}/lessons`)
+
+
+    // Atomically add a new region to the "regions" array field.
+    /*    var arrUnion = await lessonRef.update({
+            watchtime: admin.firestore.FieldValue.arrayUnion({
+                "lessonId": 1,
+                "watchtime": 97.440219,
+                "subjectId": 13,
+                "date": admin.firestore.FieldValue.serverTimestamp()
+            })
+        });
+    */
+    await lessonRef.update({
+        watchtime: FieldValue.arrayUnion({
+            "lessonId": 1,
+            "watchtime": 97.440219,
+            "subjectId": 13,
+            "date": admin.firestore.FieldValue.serverTimestamp()
+        })
+    })
+    /*
+    
+        const user = db.collection('users').doc(req.session.username);
+        const doc = await user.lessons.watchtime.set([{
+            "lessonId": 0,
+            "watchtime": 97.440219,
+            "subjectId": 13,
+            "date": admin.firestore.FieldValue.serverTimestamp()
+        }]); */
+
+
+    res.json(arrUnion)
 }
 module.exports = {
     root,
@@ -277,5 +368,7 @@ module.exports = {
     viewLessons,
     profile,
     getActiveYear,
-    changeActiveYear
+    changeActiveYear,
+    errorPage,
+    testPoint
 }
