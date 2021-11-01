@@ -352,6 +352,17 @@ const testPoint = async (req, res) => {
 
     res.json(arrUnion)
 }
+
+const Admin_Dashboard = async (req, res) => {
+    res.render(path.join(__dirname + '../../public/admin/index.html'), {
+        page_title: 'Amminstrazione Studium Online',
+        widget_data: {
+            active_users: 1893,
+            non_active_users: 589,
+            total_lessons: 749
+        }
+    })
+}
 module.exports = {
     root,
     auth,
