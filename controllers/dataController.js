@@ -381,5 +381,6 @@ module.exports = {
     getActiveYear,
     changeActiveYear,
     errorPage,
-    testPoint
+    testPoint,
+    Admin_Dashboard
 }

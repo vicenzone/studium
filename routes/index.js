@@ -4,6 +4,17 @@ const router = new Router()
 const dataController = require('../controllers/dataController.js')
 const session = require("../middleware/session");
 
+/*
+
+    !!!! WARNING !!!!
+
+    all: page should be secured by JSON WEB TOKEN
+    all: API endpoint should be secured by one-time-key
+    all: video API/PAGE RENDER must use Media Session Key or something that protect copyrighted media
+
+*/
+
+
 // PAGE RENDERING
 router.get('/', dataController.root)
 router.post('/auth', dataController.auth);
@@ -33,7 +44,8 @@ router.get('/api/session/setYear/:year', session, dataController.changeActiveYea
 // TEST ENDPOINT
 router.get('/api/testpoint', session, dataController.testPoint)
 
-
+// PAGE RENDER - ADMIN 
+router.get('/backoffice', dataController.Admin_Dashboard)
 // ERROR PAGE RENDER
 router.get('/error/:errCode', dataController.errorPage)
 
