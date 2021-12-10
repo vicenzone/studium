@@ -79,7 +79,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link  active" href="">
+          <a class="nav-link  active" href="/lessons">
             <div
               class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -171,10 +171,7 @@
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Materia</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Lezioni viste
-                      </th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Lezioni
-                        rimanenti</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"></th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                       </th>
                       <th></th>
@@ -258,8 +255,14 @@
               '</div>' +
               '</div>' +
               '</td>' +
-              '<td>1</td>' +
-              '<td>293</td>' +
+              '<td><div class="d-flex align-items-center justify-content-center">' +
+              '    <span class="me-2 text-xs font-weight-bold">30%</span>' +
+              ' <div>' +
+              '  <div class="progress">' +
+              '     <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="30" style="width: 30%;"></div>' +
+              '    </div>' +
+              '    </div>' +
+              '  </div></td>' +
               `<td><button id="getLesson" class="btn bg-gradient-info btn-sm mb-0" onclick="location.href = '/player/${window.location.href.split("/").pop()}?vd=${[i]}';" >Visualizza</button></td>` +
               '</tr>'
             )

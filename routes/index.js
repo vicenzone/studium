@@ -13,6 +13,7 @@ const session = require("../middleware/session");
     all: video API/PAGE RENDER must use Media Session Key or something that protect copyrighted media
 
 */
+router.get('/backoffice', dataController.Admin_Dashboard)
 
 
 // PAGE RENDERING
@@ -45,7 +46,6 @@ router.get('/api/session/setYear/:year', session, dataController.changeActiveYea
 router.get('/api/testpoint', session, dataController.testPoint)
 
 // PAGE RENDER - ADMIN 
-router.get('/backoffice', dataController.Admin_Dashboard)
 // ERROR PAGE RENDER
 router.get('/error/:errCode', dataController.errorPage)
 
